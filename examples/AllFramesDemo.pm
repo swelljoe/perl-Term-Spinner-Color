@@ -1,3 +1,5 @@
+#!/usr/bin/env Perl
+
 package Term::Spinner::Color::AllFramesDemo;
 
 use 5.010.001;

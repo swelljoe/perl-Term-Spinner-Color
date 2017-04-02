@@ -1,3 +1,5 @@
+#!/usr/bin/env perl
+
 package Term::Spinner::Color::Examples;
 
 use 5.010.001;
