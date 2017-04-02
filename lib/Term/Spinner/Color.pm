@@ -40,12 +40,10 @@ my %frames = (
   'uni_cards' => [ qw(♣ ♤ ♥ ♦) ],
   'uni_triangle' => [ qw(◢ ◣ ◤ ◥) ],
   'uni_square' => [ qw(◰ ◳ ◲ ◱) ],
-  'uni_box_bounce' => [ qw(▖ ▘ ▝ ▗) ],
-  'uni_box_spin' => [ qw(▛ ▜ ▟ ▙) ],
   'uni_pie' => [ qw(◴ ◷ ◶ ◵) ],
   'uni_circle' => [ qw(◐ ◓ ◑ ◒) ],
   'uni_qtr_circle' => [ qw(◜ ◝ ◞ ◟) ],
-  'uni_three_lines' => [ qw(⚞ ☰ ⚟) ],
+  'uni_three_lines' => [ qw(⚞ ☰ ⚟ ☰) ],
   'uni_trigram_down' => [ qw(☰ ☱ ☲ ☴) ],
   'uni_trigram_bounce' => [ qw(☰ ☱ ☲ ☴ ☰ ☴ ☲ ☱) ],
   'uni_count' => [ qw(➀ ➁ ➂ ➃ ➄ ➅ ➆ ➇ ➈ ➉) ],
@@ -196,11 +194,13 @@ sub run_ok {
 __END__
 
 =pod
+
 =encoding utf8
+
 =head1 NAME
 
-Term::Spinner::Color - A terminal spinner/progress bar with Unicode, color,
-and no non-core dependencies.
+Term::Spinner::Color - A terminal spinner/progress bar with
+Unicode, color, and no non-core dependencies.
 
 =head1 SYNOPSIS
 
@@ -248,6 +248,8 @@ Windows works fine, however).
 
 =head1 ATTRIBUTES
 
+=over
+
 =item delay
 
 If used asynchronously, this is how long each tick will last. It uses the
@@ -272,7 +274,11 @@ L<Term::ANSIColor> color names, and the default is C<cyan>.
 If set to 1, or any truthy value, the colors will cycle through all seven
 of the base ANSI color values changing on each tick of the C<seq>.
 
+=back
+
 =head1 METHODS
+
+=over
 
 =item start
 
@@ -316,6 +322,8 @@ built-in spinner C<seq> options will work with this method.
 
 It uses eval, so should not be given user-provided data or otherwise
 tricky stuff. It has no protections against shooting of feet.
+
+=back
 
 =head1 BUGS
 

@@ -45,7 +45,6 @@ sub main {
     'seq' => 'uni_dots7'
   );
   $s5->run_ok("sleep 5", "uni_dots7");
-
 }
 
 exit main( \@ARGV );
