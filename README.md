@@ -125,7 +125,7 @@ Windows works fine, however).
 # BUGS
 
 Somewhat spotty on Windows shells (cmd.exe or PowerShell). PowerShell seems
-to have ANSI color suppoer, but Unicode doesn't seem to work.
+to have ANSI color support, but Unicode doesn't seem to work.
 
 Does not support multiple simultaneous spinners. It does not know how to
 find current spinner position or return to it. The program would likely
