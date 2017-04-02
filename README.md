@@ -133,3 +133,6 @@ need to make use of Curses, which is not in core, and is probably even
 less likely to work on Windows shells than the stuff I'm already using.
 
 Requires tput for the run\_ok method to figure out the term column width.
+
+I have no idea how to write tests for this, so there's only a placeholder
+test.
