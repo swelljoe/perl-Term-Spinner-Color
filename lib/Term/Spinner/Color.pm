@@ -9,7 +9,7 @@ use open ':std', ':encoding(UTF-8)';
 
 $| = 1;  # Disable buffering on STDOUT.
 
-# Couple of package vars for colors and frame sets
+# Couple of instance vars for colors and frame sets
 my @colors = qw( red green yellow blue magenta cyan white );
 my %frames = (
   'ascii_propeller' => [ qw(/ - \\ |) ],
@@ -41,9 +41,15 @@ my %frames = (
   'uni_triangle' => [ qw(◢ ◣ ◤ ◥) ],
   'uni_square' => [ qw(◰ ◳ ◲ ◱) ],
   'uni_box_bounce' => [ qw(▖ ▘ ▝ ▗) ],
+  'uni_box_spin' => [ qw(▛ ▜ ▟ ▙) ],
   'uni_pie' => [ qw(◴ ◷ ◶ ◵) ],
   'uni_circle' => [ qw(◐ ◓ ◑ ◒) ],
   'uni_qtr_circle' => [ qw(◜ ◝ ◞ ◟) ],
+  'uni_three_lines' => [ qw(⚞ ☰ ⚟) ],
+  'uni_trigram_down' => [ qw(☰ ☱ ☲ ☴) ],
+  'uni_trigram_bounce' => [ qw(☰ ☱ ☲ ☴ ☰ ☴ ☲ ☱) ],
+  'uni_count' => [ qw(➀ ➁ ➂ ➃ ➄ ➅ ➆ ➇ ➈ ➉) ],
+  'uni_ellipsis_propeller' => [ qw(⋮ ⋰ ⋯ ⋱) ],
   'wide_ascii_prog' =>
     [ qw([>----] [=>---] [==>--] [===>-] [====>] [----<] [---<=] [--<==] [-<===] [<====]) ],
   'wide_ascii_propeller' =>
@@ -53,7 +59,7 @@ my %frames = (
   'wide_uni_greyscale' =>
     [ qw(░░░░░░░ ▒░░░░░░ ▒▒░░░░░ ▒▒▒░░░░ ▒▒▒▒░░░ ▒▒▒▒▒░░ ▒▒▒▒▒▒░ ▒▒▒▒▒▒▒ ▒▒▒▒▒▒░ ▒▒▒▒▒░░ ▒▒▒▒░░░ ▒▒▒░░░░ ▒▒░░░░░ ▒░░░░░░ ░░░░░░░) ],
   'wide_uni_greyscale2' =>
-    [ qw(░░░░░░░ ▒░░░░░░ ▒▒░░░░░ ▒▒▒░░░░ ▒▒▒▒░░░ ▒▒▒▒▒░░ ▒▒▒▒▒▒░ ▒▒▒▒▒▒▒ ░▒▒▒▒▒▒ ░░▒▒▒▒▒ ░░░▒▒▒▒ ░░░░▒▒▒ ░░░░░▒▒ ░░░░░░) ],
+    [ qw(░░░░░░░ ▒░░░░░░ ▒▒░░░░░ ▒▒▒░░░░ ▒▒▒▒░░░ ▒▒▒▒▒░░ ▒▒▒▒▒▒░ ▒▒▒▒▒▒▒ ░▒▒▒▒▒▒ ░░▒▒▒▒▒ ░░░▒▒▒▒ ░░░░▒▒▒ ░░░░░▒▒ ░░░░░▒ ░░░░░░) ],
 );
 
 sub new {
@@ -81,7 +87,7 @@ sub new {
 sub start {
   my $self = shift;
   print "\x1b[?25l"; # Hide cursor
-  $self->{'last_size'}=length($self->{'seq'}[0]);
+  $self->{'last_size'} = length($self->{'seq'}[0]);
   print colored("$self->{'seq'}[0]", $self->{'color'});
 }
 
@@ -94,12 +100,11 @@ sub next {
     $self->{'color'} = $colors[0];
   }
 
-  my $size=length($self->{'seq'}[$pos]);
-  print $self->{'bksp'} x $size;
+  print $self->{'bksp'} x $self->{'last_size'};
   print colored("$self->{'seq'}[$pos]", $self->{'color'});
 
   $pos = ++$pos % scalar @{ $self->{'seq'} };
-  $self->{'last_size'}=$size;
+  $self->{'last_size'} = length($self->{'seq'}[$pos]);
 }
 
 sub done {
@@ -113,7 +118,6 @@ sub done {
 sub auto_start {
   my $self = shift;
 
-  $self->start();
   my $pid = fork();
   die ("Failed to fork progress indicator.\n") unless defined $pid;
 
@@ -121,6 +125,7 @@ sub auto_start {
     $self->{'child'} = $pid;
     return;
   } else { # Kid stuff
+    $self->start();
     while (1) {
       sleep $self->{'delay'};
       $self->next();
@@ -146,7 +151,7 @@ sub run_ok {
   my $message = shift; # String to print before the spinner
   my $termwidth = `tput cols`;
   $termwidth = 80 unless $termwidth <= 80;
-  my $cols = $termwidth - length($message) - $self->{'last_size'};
+  my $cols = $termwidth - length($message) - $self->{'last_size'} - 1;
   my ($ok, $nok);
   if ($self->{'last_size'} == 1) {
     $ok = colored("✔", 'green');
@@ -226,7 +231,7 @@ you can use the C<auto_start> and C<auto_done> methods instead.
 =head1 DESCRIPTION
 
 This is a simple spinner, useful when you want to show some kind of activity
-during a long-running activity of non-determinant length.  It's loosely based
+during a long-running process of indeterminant length.  It's loosely based
 on the API from L<Term::Spinner> and L<Term::Spinner::Lite>.  Unlike
 L<Term::Spinner> though, this module doesn't have any dependencies outside
 of modules shipped with Perl itself. And, unlike L<Term::Spinner::Lite>, this
@@ -235,8 +240,11 @@ module has color support and support for wide progress bars.
 This module also provides an asynchronous mode, which does not require your
 program to manually call the C<next> method.
 
-It uses techniques which do not work correctly within Windows shells, though
-it does work with Windows terminals connecting to UNIX-y shells.
+Some features and some (Unicode) frame sets do not work in Windows PowerShell
+or cmd.exe. If you must work across a wide variety of platforms, choosing
+ASCII frame sets is wise. C<run_ok> method currently only provides Unicode
+output, so it is not suitable for use on Windows (bash, of many types, on
+Windows works fine, however).
 
 =head1 ATTRIBUTES
 
