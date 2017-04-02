@@ -1,7 +1,7 @@
 package Term::Spinner::Color;
 use strict;
 use warnings;
-use 5.010.001;
+use 5.010;
 use Time::HiRes qw( sleep );
 use Term::ANSIColor;
 use utf8;
