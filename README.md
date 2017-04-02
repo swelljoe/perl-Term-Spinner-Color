@@ -124,10 +124,8 @@ Windows works fine, however).
 
 # BUGS
 
-Does not work on Windows shells (cmd.exe or PowerShell). PowerShell seems
-to have ANSI color suppoer, but other terminal control does not seem to
-work. I have not had time to figure this one out, but welcome patches or
-suggestions.
+Somewhat spotty on Windows shells (cmd.exe or PowerShell). PowerShell seems
+to have ANSI color suppoer, but Unicode doesn't seem to work.
 
 Does not support multiple simultaneous spinners. It does not know how to
 find current spinner position or return to it. The program would likely
