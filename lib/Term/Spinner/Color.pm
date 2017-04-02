@@ -168,7 +168,7 @@ sub run_ok {
     $self->start();
     foreach my $exp (@{$exp}) {
       $self->next();
-      my $res = eval $exp;
+      my $res = eval $exp; ## no critic
       unless ($res) {
         $self->done();
         say $nok;
@@ -179,7 +179,7 @@ sub run_ok {
     say $ok;
   } else { # Single expression
     $self->auto_start();
-    my $res = eval $exp;
+    my $res = eval $exp; ## no critic
     unless ($res) {
       $self->auto_done();
       say $nok;
