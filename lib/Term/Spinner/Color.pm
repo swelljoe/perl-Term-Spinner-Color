@@ -16,7 +16,7 @@ my %frames = (
   'ascii_plus' => [ qw(x +) ],
   'ascii_blink' => [ qw(o -) ],
   'ascii_v' => [ qw(v < ^ >) ],
-  'asci_inflate' => [ qw(. o O o) ],
+  'ascii_inflate' => [ qw(. o O o) ],
   'uni_dots' => [ qw(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏) ],
   'uni_dots2' => [ qw(⣾ ⣽ ⣻ ⢿ ⡿ ⣟ ⣯ ⣷) ],
   'uni_dots3' => [ qw(⣷ ⣯ ⣟ ⡿ ⢿ ⣻ ⣽ ⣾) ],
@@ -51,7 +51,7 @@ my %frames = (
   'wide_ascii_prog' =>
     [ qw([>----] [=>---] [==>--] [===>-] [====>] [----<] [---<=] [--<==] [-<===] [<====]) ],
   'wide_ascii_propeller' =>
-    [ qw([|----] [=/---] [==---] [===\\-] [=====|] [---\\=] [---==] [-/===]) ],
+    [ qw([|----] [=/---] [==---] [===\-] [====|] [---\=] [---==] [-/===]) ],
   'wide_ascii_snek' =>
     [ qw([>----] [~>---] [~~>--] [~~~>-] [~~~~>] [----<] [---<~] [--<~~] [-<~~~] [<~~~~]) ],
   'wide_uni_greyscale' =>
@@ -185,9 +185,28 @@ sub run_ok {
       say $nok;
       return 0;
     }
-    $self->auto_done();
-    say $ok;
+  $self->auto_done();
+  say $ok;
   }
+}
+
+  # Return list of available frames
+sub available_frames {
+  my $self = shift;
+  return \%frames;
+}
+
+sub available_colors {
+  my $self = shift;
+  return @colors;
+}
+
+# Frame length of the first frame of a seq...this won't work if
+# if the frames change size, but the rest of the spinnner will
+# probably also screw up in that case.
+sub frame_length {
+  my $self = shift;
+  return length($self->{'seq'}[0]);
 }
 1;
 
