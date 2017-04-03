@@ -1,0 +1,79 @@
+#!/usr/bin/env perl
+package spinner;
+use strict;
+use warnings;
+use 5.010;
+use Term::Spinner::Color;
+use Getopt::Long qw( GetOptionsFromArray );
+use Pod::Usage;
+use Time::HiRes;
+use utf8;
+use open ':std', ':encoding(UTF-8)';
+
+# Globals so we can clean up on kill
+my $s;
+my $childpid;
+my $last_size;
+
+sub main {
+  my ( $argv ) = @_;
+  my %opt;
+  GetOptionsFromArray( $argv, \%opt,
+    'help|h',
+    'color|c',
+    'colorcycle|r',
+    'seq|s',
+  );
+  pod2usage(0) if $opt{help};
+
+  # setup the arguments for constructing the spinner
+  my %args;
+  if ($opt{seq}) { $args{seq} = $opt{seq} };
+  if ($opt{color}) { $args{color} = $opt{color} };
+  if ($opt{colorcycle}) { $args{color} = $opt{color} };
+
+  $s = Term::Spinner::Color->new(
+    %args
+  );
+
+  $s->auto_start();
+  $childpid = $s->{'child'};
+  $last_size= $s->{'last_size'};
+  use sigtrap 'handler', \&finished, 'normal-signals';
+  while (1) {
+    #loop until killed
+    sleep 0.2;
+  }
+  return 0;
+}
+
+# This just calls END, right?
+sub finished {
+  kill 'INT', $s->{'child'};
+  my $bksp = chr(0x08);
+  my $endpid = wait();
+  print $bksp x $last_size;
+  print "\x1b[?25h"; # Show cursor
+  exit 0;
+}
+
+exit main( \@ARGV );
+
+__END__
+
+=head1 NAME
+
+spinner - A command to print a spinner and wait for a signal to stop.
+
+=head1 SYNOPSIS
+
+    # spinner &; PID=$!; do stuff; kill $pid
+
+This command can be used in shell scripts to print a spinner while you do
+stuff in the background. Once you've completed your work, you stop the spinner
+by sending a signal to the PID of the spinner process.
+
+If you're working with Perl, you should use the Term::Spinner::Color module
+directly instead. If you prefer a pure-shell implementation, I've also built
+https://github.com/swelljoe/spinner which has nearly identical behavior, but
+only requires a POSIX-y shell.
