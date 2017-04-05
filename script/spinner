@@ -10,9 +10,10 @@ use Time::HiRes qw(sleep);
 use utf8;
 use open ':std', ':encoding(UTF-8)';
 use sigtrap qw/handler finished normal-signals/;
+# I have no idea if this works.
 if ($^O eq 'MSWin32') {
-  require Win32::Console;
-  Win32::Console->import();
+  require Win32::Console::ANSI;
+  Win32::Console::ANSI->import();
 }
 use Term::ANSIScreen qw(:cursor);
 
@@ -73,7 +74,22 @@ spinner - A command to print a spinner and wait for a signal to stop.
 
 =head1 SYNOPSIS
 
-    # spinner &; PID=$!; do stuff; kill $pid
+One-liner from a POSIX-y shell:
+
+    # spinner &; PID=$!; sleep 5; kill $PID
+
+In a POSIX-y script:
+
+    spinner &
+    PID=$!
+    # Do some stuff
+    sleep 5
+    kill $PID
+
+In the above examples, "sleep 5" would be replaced with whatever long-running
+work you need to do. It can be one command or many.
+
+=head1 DESCRIPTION
 
 This command can be used in shell scripts to print a spinner while you do
 stuff in the background. Once you've completed your work, you stop the spinner
