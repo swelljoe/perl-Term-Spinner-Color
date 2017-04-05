@@ -6,13 +6,17 @@ use 5.010;
 use Term::Spinner::Color;
 use Getopt::Long qw( GetOptionsFromArray );
 use Pod::Usage;
-use Time::HiRes;
+use Time::HiRes qw(sleep);
 use utf8;
 use open ':std', ':encoding(UTF-8)';
+use sigtrap qw/handler finished normal-signals/;
+if ($^O eq 'MSWin32') {
+  require Win32::Console;
+  Win32::Console->import();
+}
+use Term::ANSIScreen qw(:cursor);
 
-# Globals so we can clean up on kill
-my $s;
-my $childpid;
+my $done; # Set this in signal handleer to stop spinning.
 my $last_size;
 
 sub main {
@@ -30,31 +34,33 @@ sub main {
   my %args;
   if ($opt{seq}) { $args{seq} = $opt{seq} };
   if ($opt{color}) { $args{color} = $opt{color} };
-  if ($opt{colorcycle}) { $args{color} = $opt{color} };
+  if ($opt{colorcycle}) { $args{colorcycle} = $opt{colorcycle} || 0 };
+  if ($opt{delay}) { $args{delay} = $opt{delay} };
+  unless ($args{delay}) { $args{delay} = 0.2 };
 
-  $s = Term::Spinner::Color->new(
+  my $s = Term::Spinner::Color->new(
     %args
   );
 
-  $s->auto_start();
-  $childpid = $s->{'child'};
-  $last_size= $s->{'last_size'};
-  use sigtrap 'handler', \&finished, 'normal-signals';
+  # XXX Maybe hacky. Store current cursor position.
+  savepos();
+  $s->start();
   while (1) {
-    #loop until killed
-    sleep 0.2;
+    $last_size = $s->{last_size};
+    sleep $args{delay};
+    $s->next();
   }
   return 0;
 }
 
-# This just calls END, right?
 sub finished {
-  kill 'INT', $s->{'child'};
+  my $done = 1;
   my $bksp = chr(0x08);
-  my $endpid = wait();
+  # try two ways to get back to original position
   print $bksp x $last_size;
+  loadpos();
   print "\x1b[?25h"; # Show cursor
-  exit 0;
+  #exit 0;
 }
 
 exit main( \@ARGV );

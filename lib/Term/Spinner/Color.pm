@@ -5,6 +5,7 @@ use 5.010;
 use POSIX;
 use Time::HiRes qw( sleep );
 use Term::ANSIColor;
+use Term::Cap;
 use utf8;
 use open ':std', ':encoding(UTF-8)';
 
