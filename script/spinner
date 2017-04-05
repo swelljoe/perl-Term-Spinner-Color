@@ -60,7 +60,7 @@ sub finished {
   print $bksp x $last_size;
   loadpos();
   print "\x1b[?25h"; # Show cursor
-  #exit 0;
+  exit 0;
 }
 
 exit main( \@ARGV );
