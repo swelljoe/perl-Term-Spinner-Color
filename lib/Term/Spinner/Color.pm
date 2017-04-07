@@ -218,6 +218,8 @@ __END__
 
 =encoding utf8
 
+=for html <a href="https://travis-ci.org/swelljoe/perl-Term-Spinner-Color"><img src="https://travis-ci.org/swelljoe/perl-Term-Spinner-Color.svg?branch=master"></a>
+
 =head1 NAME
 
 Term::Spinner::Color - A terminal spinner/progress bar with

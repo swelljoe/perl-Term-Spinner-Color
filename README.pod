@@ -2,6 +2,8 @@
 
 =encoding utf8
 
+=for html <a href="https://travis-ci.org/swelljoe/perl-Term-Spinner-Color"><img src="https://travis-ci.org/swelljoe/perl-Term-Spinner-Color.svg?branch=master"></a>
+
 =head1 NAME
 
 Term::Spinner::Color - A terminal spinner/progress bar with
@@ -73,7 +75,7 @@ default, and provides a nice smooth animation, generally).
 
 =item seq
 
-Either an ref to an array containing your prerred spin character frames, or
+Either a ref to an array containing your preferred spin character frames, or
 a scalar containing the name of your preferred spin character frames, from
 the available defaults. Because it re-draws the whole frame on each tick,
 very long frames may be unwieldy over slow connections. Several nice Unicode
