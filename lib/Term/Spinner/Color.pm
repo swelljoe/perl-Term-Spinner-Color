@@ -274,7 +274,8 @@ Some features and some (Unicode) frame sets do not work in Windows PowerShell
 or cmd.exe. If you must work across a wide variety of platforms, choosing
 ASCII frame sets is wise. C<run_ok> method currently only provides Unicode
 output, so it is not suitable for use on Windows (bash, of many types, on
-Windows works fine, however).
+Windows works fine, however). There's probably a way to fix this by switching
+to another code page in Windows shells.
 
 =head1 ATTRIBUTES
 
@@ -288,7 +289,7 @@ default, and provides a nice smooth animation, generally).
 
 =item seq
 
-Either an ref to an array containing your prerred spin character frames, or
+Either a ref to an array containing your preferred spin character frames, or
 a scalar containing the name of your preferred spin character frames, from
 the available defaults. Because it re-draws the whole frame on each tick,
 very long frames may be unwieldy over slow connections. Several nice Unicode

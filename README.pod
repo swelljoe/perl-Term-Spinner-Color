@@ -58,7 +58,8 @@ Some features and some (Unicode) frame sets do not work in Windows PowerShell
 or cmd.exe. If you must work across a wide variety of platforms, choosing
 ASCII frame sets is wise. C<run_ok> method currently only provides Unicode
 output, so it is not suitable for use on Windows (bash, of many types, on
-Windows works fine, however).
+Windows works fine, however). There's probably a way to fix this by switching
+to another code page in Windows shells.
 
 =head1 ATTRIBUTES
 
