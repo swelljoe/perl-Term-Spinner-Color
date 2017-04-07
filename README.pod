@@ -1,0 +1,157 @@
+=pod
+
+=encoding utf8
+
+=head1 NAME
+
+Term::Spinner::Color - A terminal spinner/progress bar with
+Unicode, color, and no non-core dependencies.
+
+=head1 SYNOPSIS
+
+=begin HTML
+
+<p>
+<a href="https://asciinema.org/a/1zzn2t139xdw0m3w9j664dqux?autoplay=1&data-size=big"
+ target="_blank"><img src="https://asciinema.org/a/1zzn2t139xdw0m3w9j664dqux.png" /></a>
+</p>
+
+=end HTML
+
+    use utf8;
+    use 5.010;
+    use Term::Spinner::Color;
+    my $spin = Term::Spinner::Color->new(
+      seq => ['◑', '◒', '◐', '◓'],
+      );
+    $spin->start();
+    $spin->next() for 1 .. 10;
+    $spin->done();
+
+Or, if you want to not worry about ticking the sequence forward with C<next>
+you can use the C<auto_start> and C<auto_done> methods instead.
+
+    use utf8;
+    use 5.010;
+    use Term::Spinner::Color;
+    my $spin = Term::Spinner::Color->new(
+      'delay' => 0.3,
+      'colorcycle' => 1,
+      );
+    $spin->auto_start();
+    sleep 5; # do something slow here
+    $spin->auto_done();
+
+=head1 DESCRIPTION
+
+This is a simple spinner, useful when you want to show some kind of activity
+during a long-running process of indeterminant length.  It's loosely based
+on the API from L<Term::Spinner> and L<Term::Spinner::Lite>.  Unlike
+L<Term::Spinner> though, this module doesn't have any dependencies outside
+of modules shipped with Perl itself. And, unlike L<Term::Spinner::Lite>, this
+module has color support and support for wide progress bars.
+
+This module also provides an asynchronous mode, which does not require your
+program to manually call the C<next> method.
+
+Some features and some (Unicode) frame sets do not work in Windows PowerShell
+or cmd.exe. If you must work across a wide variety of platforms, choosing
+ASCII frame sets is wise. C<run_ok> method currently only provides Unicode
+output, so it is not suitable for use on Windows (bash, of many types, on
+Windows works fine, however).
+
+=head1 ATTRIBUTES
+
+=over
+
+=item delay
+
+If used asynchronously, this is how long each tick will last. It uses the
+L<Time::HiRes> sleep function, so you can use fractional seconds (0.2 is the
+default, and provides a nice smooth animation, generally).
+
+=item seq
+
+Either an ref to an array containing your prerred spin character frames, or
+a scalar containing the name of your preferred spin character frames, from
+the available defaults. Because it re-draws the whole frame on each tick,
+very long frames may be unwieldy over slow connections. Several nice Unicode
+and ASCII frame sets are provided.
+
+=item color
+
+If provided, this will be the starting color of the spinner. It uses
+L<Term::ANSIColor> color names, and the default is C<cyan>.
+
+=item colorcycle
+
+If set to 1, or any truthy value, the colors will cycle through all seven
+of the base ANSI color values changing on each tick of the C<seq>.
+
+=back
+
+=head1 METHODS
+
+=over
+
+=item start
+
+Prints the first frame of the C<seq>. Your cursor should be placed where
+you want the spinner to appear before starting. This method hides the
+cursor, so if interrupted, it may leave the terminal without a cursor (will
+be fixed sometime...).
+
+=item next
+
+Increments the C<seq> and prints the next one. Call this method before or
+after each step in your program to show "progress". If you don't want to
+increment the indicator manually, you can use C<auto_start> at the beginning
+of your long-running step or series of steps.
+
+=item done
+
+Resets the cursor to its original position and makes it visible. Call this
+when you are finished running your steps.
+
+=item auto_start
+
+Forks a new autonomous spinner process. It will print a spinner at the
+current cursor position until C<auto_done> is called. If your program does
+not have many short steps, but instead one or more very long-running ones,
+this is likely preferable to the manual ticking process provided by C<start>,
+C<next>, and C<done>.
+
+=item auto_done
+
+Call this method to end the current spinner process.
+
+=item run_ok
+
+This is a sort of weird method to eval one expression or a series of
+expressions in a list, with a spinner running throughout. At the end,
+it prints a Unicode checkmark or X to indicate success or failure.
+
+It currently only works with C<seq> frames with length 1, 5, or 7. Any of the
+built-in spinner C<seq> options will work with this method.
+
+It uses eval, so should not be given user-provided data or otherwise
+tricky stuff. It has no protections against shooting of feet.
+
+=back
+
+=head1 BUGS
+
+Somewhat spotty on Windows shells (cmd.exe or PowerShell). PowerShell seems
+to have ANSI color support, but Unicode doesn't seem to work.
+
+Does not support multiple simultaneous spinners. It does not know how to
+find current spinner position or return to it. The program would likely
+need to make use of Curses, which is not in core, and is probably even
+less likely to work on Windows shells than the stuff I'm already using.
+
+Requires tput for the run_ok method to figure out the term column width.
+
+I have no idea how to write tests for this, so there's only a placeholder
+test.
+
+=cut
