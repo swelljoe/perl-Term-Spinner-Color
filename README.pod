@@ -12,7 +12,7 @@ Unicode, color, and no non-core dependencies.
 =begin HTML
 
 <p>
-<a href="https://asciinema.org/a/1zzn2t139xdw0m3w9j664dqux?autoplay=1&size=big"
+<a href="https://asciinema.org/a/1zzn2t139xdw0m3w9j664dqux?autoplay=1&size=big&t=05"
 target="_blank"><img src="https://asciinema.org/a/1zzn2t139xdw0m3w9j664dqux.png" /></a>
 </p>
 
