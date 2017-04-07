@@ -225,6 +225,15 @@ Unicode, color, and no non-core dependencies.
 
 =head1 SYNOPSIS
 
+=begin HTML
+
+<p>
+<a href="https://asciinema.org/a/1zzn2t139xdw0m3w9j664dqux?autoplay=1&data-size=big"
+ target="_blank"><img src="https://asciinema.org/a/1zzn2t139xdw0m3w9j664dqux.png" /></a>
+</p>
+
+=end HTML
+
     use utf8;
     use 5.010;
     use Term::Spinner::Color;

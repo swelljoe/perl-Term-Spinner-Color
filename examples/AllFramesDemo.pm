@@ -1,4 +1,4 @@
-#!/usr/bin/env Perl
+#!/usr/bin/env perl
 
 package Term::Spinner::Color::AllFramesDemo;
 
@@ -19,7 +19,7 @@ sub main {
       'seq' => $frame,
       'color' => $colors[0],
     );
-    my $cols = (60 - length($frame)) - $loopspin->frame_length();
+    my $cols = (30 - length($frame)) - $loopspin->frame_length();
     print "$frame" . " " x $cols;
     $loopspin->auto_start();
     sleep 5;
