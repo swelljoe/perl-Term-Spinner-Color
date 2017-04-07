@@ -228,9 +228,8 @@ Unicode, color, and no non-core dependencies.
 =begin HTML
 
 <p>
-<script type="text/javascript"
-src="https://asciinema.org/a/1zzn2t139xdw0m3w9j664dqux.js"
-id="asciicast-1zzn2t139xdw0m3w9j664dqux" async></script>
+<a href="https://asciinema.org/a/1zzn2t139xdw0m3w9j664dqux?autoplay=1&size=big"
+target="_blank"><img src="https://asciinema.org/a/1zzn2t139xdw0m3w9j664dqux.png" /></a>
 </p>
 
 =end HTML
