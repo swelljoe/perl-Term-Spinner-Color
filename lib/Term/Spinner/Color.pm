@@ -203,6 +203,36 @@ sub available_colors {
   return @colors;
 }
 
+# ok!
+# Call this if you want a nice checkmark after you spinn
+sub ok {
+  my $self = shift;
+  my $ok;
+  if ($self->{'last_size'} == 1) {
+    $ok = colored("✔", 'green');
+  } elsif ($self->{'last_size'} == 5) {
+    $ok = colored("[ ✔ ]", 'white on_green');
+  } else { # Better be 7, or it'll look goofy, but still work
+    $ok = colored("[  ✔  ]", 'white on_green');
+  }
+  say $ok;
+}
+
+# nok!
+# call this to tell user everything is not ok. prints a red x
+sub nok {
+  my $self = shift;
+  my $nok;
+  if ($self->{'last_size'} == 1) {
+    $nok = colored("✘", 'green');
+  } elsif ($self->{'last_size'} == 5) {
+    $nok = colored("[ ✘ ]", 'white on_green');
+  } else { # Better be 7, or it'll look goofy, but still work
+    $nok = colored("[  ✘  ]", 'white on_green');
+  }
+  say $nok;
+}
+
 # Frame length of the first frame of a seq...this won't work if
 # if the frames change size, but the rest of the spinnner will
 # probably also screw up in that case.
