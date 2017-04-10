@@ -1,7 +1,7 @@
 #!/bin/sh
 
 printf "Doot doot                   "
-/usr/bin/perl spinner &
+../bin/spinner &
 PID=$!
 sleep 5
 kill $PID
