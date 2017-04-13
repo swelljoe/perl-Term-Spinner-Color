@@ -229,11 +229,11 @@ sub nok {
   my $self = shift;
   my $nok;
   if ($self->{'last_size'} == 1) {
-    $nok = colored("✘", 'green');
+    $nok = colored("✘", 'red');
   } elsif ($self->{'last_size'} == 5) {
-    $nok = colored("[ ✘ ]", 'white on_green');
+    $nok = colored("[ ✘ ]", 'white on_red');
   } else { # Better be 7, or it'll look goofy, but still work
-    $nok = colored("[  ✘  ]", 'white on_green');
+    $nok = colored("[  ✘  ]", 'white on_red');
   }
   say $nok;
 }
@@ -245,6 +245,7 @@ sub frame_length {
   my $self = shift;
   return length($self->{'seq'}[0]);
 }
+
 1;
 
 __END__
