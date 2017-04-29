@@ -161,6 +161,9 @@ sub run_ok {
   if ($self->{'last_size'} == 1) {
     $ok = colored("✔", 'green');
     $nok = colored("✘", 'red');
+  } elsif ($self->{'last_size'} == 3) {
+    $ok = colored("[✔]", 'white on_green');
+    $nok = colored("[✘]", 'white on_red');
   } elsif ($self->{'last_size'} == 5) {
     $ok = colored("[ ✔ ]", 'white on_green');
     $nok = colored("[ ✘ ]", 'white on_red');
