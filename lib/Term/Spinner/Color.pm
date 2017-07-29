@@ -62,9 +62,9 @@ my %frames = (
   'wide_ascii_snek' =>
     [ qw([>----] [~>---] [~~>--] [~~~>-] [~~~~>] [----<] [---<~] [--<~~] [-<~~~] [<~~~~]) ],
   'wide_uni_greyscale' =>
-    [ qw(░░░░░░░ ▒░░░░░░ ▒▒░░░░░ ▒▒▒░░░░ ▒▒▒▒░░░ ▒▒▒▒▒░░ ▒▒▒▒▒▒░ ▒▒▒▒▒▒▒ ▒▒▒▒▒▒░ ▒▒▒▒▒░░ ▒▒▒▒░░░ ▒▒▒░░░░ ▒▒░░░░░ ▒░░░░░░ ░░░░░░░) ],
+    [ qw(▒▒▒▒▒▒▒ █▒▒▒▒▒▒ ██▒▒▒▒▒ ███▒▒▒▒ ████▒▒▒ █████▒▒ ██████▒ ███████ ██████▒ █████▒▒ ████▒▒▒ ███▒▒▒▒ ██▒▒▒▒▒ █▒▒▒▒▒▒ ▒▒▒▒▒▒▒) ],
   'wide_uni_greyscale2' =>
-    [ qw(░░░░░░░ ▒░░░░░░ ▒▒░░░░░ ▒▒▒░░░░ ▒▒▒▒░░░ ▒▒▒▒▒░░ ▒▒▒▒▒▒░ ▒▒▒▒▒▒▒ ░▒▒▒▒▒▒ ░░▒▒▒▒▒ ░░░▒▒▒▒ ░░░░▒▒▒ ░░░░░▒▒ ░░░░░▒ ░░░░░░) ],
+    [ qw(▒▒▒▒▒▒▒ █▒▒▒▒▒▒ ██▒▒▒▒▒ ███▒▒▒▒ ████▒▒▒ █████▒▒ ██████▒ ███████ ▒██████ ▒▒█████ ▒▒▒████ ▒▒▒▒███ ▒▒▒▒▒██ ▒▒▒▒▒█ ▒▒▒▒▒▒) ],
 );
 
 sub new {
@@ -123,6 +123,7 @@ sub done {
 sub auto_start {
   my $self = shift;
 
+  my $ppid = $$;
   my $pid = fork();
   die ("Failed to fork progress indicator.\n") unless defined $pid;
 
@@ -131,9 +132,17 @@ sub auto_start {
     return;
   } else { # Kid stuff
     $self->start();
+    my $exists;
     while (1) {
       sleep $self->{'delay'};
       $self->next();
+      # Check to be sure parent is still running, if not, die
+      $exists = kill 0, $ppid;
+      unless ( $exists ) {
+        $self->done();
+        exit 0;
+      }
+      $exists="";
     }
     exit 0; # Should never get here?
   }
