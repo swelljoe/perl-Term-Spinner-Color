@@ -76,7 +76,7 @@ spinner - A command to print a spinner and wait for a signal to stop.
 
 One-liner from a POSIX-y shell:
 
-    # spinner &; PID=$!; sleep 5; kill $PID
+    # spinner & PID=$!; sleep 5; kill $PID
 
 In a POSIX-y script:
 
