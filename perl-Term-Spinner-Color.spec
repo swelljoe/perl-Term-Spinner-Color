@@ -57,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %changelog
+* Fri Aug 11 2017 build 0.04-1
+- Bump rev, fix to doc
 * Sat Jul 29 2017 build 0.03-2
 - Update with progress bar color to match slib
 * Mon May 08 2017 build 0.03-1
