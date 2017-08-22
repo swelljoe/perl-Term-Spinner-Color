@@ -178,22 +178,26 @@ sub run_ok {
   my $termwidth = `tput cols`;
   $termwidth = 80 unless $termwidth <= 80;
   my $cols = $termwidth - length($message) - $self->{'last_size'} - 1;
-  my ($ok, $nok);
+  my ($ok, $nok, $meh);
   if ($self->{'last_size'} == 1) {
     $ok  = colored("✔", 'green');
     $nok = colored("✘", 'red');
+    $meh = colored("⚠", 'yellow');
   }
   elsif ($self->{'last_size'} == 3) {
     $ok  = colored("[✔]", 'white on_green');
     $nok = colored("[✘]", 'white on_red');
+    $meh = colored("[⚠]", 'white on_yellow');
   }
   elsif ($self->{'last_size'} == 5) {
     $ok  = colored("[ ✔ ]", 'white on_green');
     $nok = colored("[ ✘ ]", 'white on_red');
+    $meh = colored("[ ⚠ ]", 'white on_yellow');
   }
   else {    # Better be 7, or it'll look goofy, but still work
     $ok  = colored("[  ✔  ]", 'white on_green');
     $nok = colored("[  ✘  ]", 'white on_red');
+    $meh = colored("[  ⚠  ]", 'white on_yellow');
   }
 
   print $message;
@@ -203,10 +207,15 @@ sub run_ok {
     foreach my $exp (@{$exp}) {
       $self->next();
       my $res = eval $exp;       ## no critic
-      unless ($res) {
+      if ($res==0) {
         $self->done();
         say $nok;
         return 0;
+      }
+      elsif ($res==2) { # Non-fatal error
+        $self->done();
+        say $meh;
+        return 2;
       }
     }
     $self->done();
