@@ -17,7 +17,15 @@ sub main {
     'seq'   => [qw(dooot odoot oodot ooodt ooood ooodt oodot odoot)],
   );
   $s1->run_ok(
-    ["sleep 0.2", "sleep 0.2", "sleep 0.2", "sleep 0.2", "sleep 0.2", "0"],
+    [
+      "sleep 0.2",
+      "sleep 0.2",
+      "sleep 0.2",
+      "sleep 0.2",
+      "sleep 0.2",
+      "sleep 0.2",
+      "0"
+    ],
     "doot doot oh no!"
   );
 
@@ -36,7 +44,7 @@ sub main {
   my $s5 = Term::Spinner::Color->new('color' => 'green', 'seq' => 'uni_dots7');
   $s5->run_ok("sleep 5", "uni_dots7");
 
-  $s5->run_ok([ "sleep 2", "2" ], "Meh");
+  $s5->run_ok(["sleep 2", "2"], "Meh");
 }
 
 exit main(\@ARGV);

@@ -207,12 +207,12 @@ sub run_ok {
     foreach my $exp (@{$exp}) {
       $self->next();
       my $res = eval $exp;       ## no critic
-      if ($res==0) {
+      if ($res == 0) {
         $self->done();
         say $nok;
         return 0;
       }
-      elsif ($res==2) { # Non-fatal error
+      elsif ($res == 2) {        # Non-fatal error
         $self->done();
         say $meh;
         return 2;
