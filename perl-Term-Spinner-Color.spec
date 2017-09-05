@@ -1,8 +1,8 @@
 %define _use_internal_dependency_generator 0
 
 Name:           perl-Term-Spinner-Color
-Version:        0.05
-Release:        2
+Version:        0.06
+Release:        1
 Summary:        Terminal spinner/progress bar with Unicode, color, and no non-core dependencies
 License:        BSD
 Group:          Development/Libraries

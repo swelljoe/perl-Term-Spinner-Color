@@ -7,42 +7,28 @@ use 5.010;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "A terminal spinner/progress bar with Unicode, color, and no non-core dependencies.",
-  "AUTHOR" => "Joe Cooper <swelljoe\@gmail.com>",
-  "CONFIGURE_REQUIRES" => {
-    "ExtUtils::MakeMaker" => 0
-  },
-  "DISTNAME" => "Term-Spinner-Color",
-  "EXE_FILES" => [
-    "bin/spinner"
-  ],
-  "LICENSE" => "bsd",
-  "MIN_PERL_VERSION" => "5.010",
-  "NAME" => "Term::Spinner::Color",
-  "PREREQ_PM" => {
-    "Term::ANSIColor" => 0
-  },
-  "TEST_REQUIRES" => {
-    "ExtUtils::MakeMaker" => 0,
-    "File::Spec" => 0,
-    "Test::More" => 0
-  },
+  "ABSTRACT" =>
+    "A terminal spinner/progress bar with Unicode, color, and no non-core dependencies.",
+  "AUTHOR"             => "Joe Cooper <swelljoe\@gmail.com>",
+  "CONFIGURE_REQUIRES" => {"ExtUtils::MakeMaker" => 0},
+  "DISTNAME"           => "Term-Spinner-Color",
+  "EXE_FILES"          => ["bin/spinner"],
+  "LICENSE"            => "bsd",
+  "MIN_PERL_VERSION"   => "5.010",
+  "NAME"               => "Term::Spinner::Color",
+  "PREREQ_PM"          => {},
+  "TEST_REQUIRES" =>
+    {"ExtUtils::MakeMaker" => 0, "File::Spec" => 0, "Test::More" => 0},
   "VERSION" => "0.05",
-  "test" => {
-    "TESTS" => "t/*.t"
-  }
+  "test"    => {"TESTS" => "t/*.t"}
 );
 
 
-my %FallbackPrereqs = (
-  "ExtUtils::MakeMaker" => 0,
-  "File::Spec" => 0,
-  "Term::ANSIColor" => 0,
-  "Test::More" => 0
-);
+my %FallbackPrereqs
+  = ("ExtUtils::MakeMaker" => 0, "File::Spec" => 0, "Test::More" => 0);
 
 
-unless ( eval { ExtUtils::MakeMaker->VERSION(6.63_03) } ) {
+unless (eval { ExtUtils::MakeMaker->VERSION(6.63_03) }) {
   delete $WriteMakefileArgs{TEST_REQUIRES};
   delete $WriteMakefileArgs{BUILD_REQUIRES};
   $WriteMakefileArgs{PREREQ_PM} = \%FallbackPrereqs;
@@ -51,8 +37,8 @@ unless ( eval { ExtUtils::MakeMaker->VERSION(6.63_03) } ) {
 delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
   unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
 
-if ( $^O eq 'MSWin32' ) {
-	$WriteMakefileArgs{PREREQ_PM}{'Win32::Console::ANSI'} = '0';
+if ($^O eq 'MSWin32') {
+  $WriteMakefileArgs{PREREQ_PM}{'Win32::Console::ANSI'} = '0';
 }
 
 WriteMakefile(%WriteMakefileArgs);
