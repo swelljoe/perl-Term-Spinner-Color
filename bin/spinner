@@ -23,8 +23,12 @@ my $last_size;
 sub main {
   my ($argv) = @_;
   my %opt;
-  GetOptionsFromArray($argv, \%opt, 'help|h', 'color|c', 'colorcycle|r',
-    'seq|s',);
+  GetOptionsFromArray($argv, \%opt, qw/
+    help|h
+    color|c=s
+    colorcycle|r
+    seq|s=s
+  /);
   pod2usage(0) if $opt{help};
 
   # setup the arguments for constructing the spinner
