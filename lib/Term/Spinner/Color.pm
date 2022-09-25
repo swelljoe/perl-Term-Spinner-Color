@@ -12,7 +12,7 @@ use open ':std', ':encoding(UTF-8)';
 $| = 1;    # Disable buffering on STDOUT.
 
 # Couple of instance vars for colors and frame sets
-my @colors = qw( red green yellow blue magenta cyan white );
+my @colors = qw( red green yellow blue magenta cyan bright_white );
 my %frames = (
   'ascii_propeller' => [qw(/ - \\ |)],
   'ascii_plus'      => [qw(x +)],
@@ -185,19 +185,19 @@ sub run_ok {
     $meh = colored("⚠", 'yellow');
   }
   elsif ($self->{'last_size'} == 3) {
-    $ok  = colored("[✔]", 'white on_green');
-    $nok = colored("[✘]", 'white on_red');
-    $meh = colored("[⚠]", 'white on_yellow');
+    $ok  = colored("[✔]", 'bright_white on_green');
+    $nok = colored("[✘]", 'bright_white on_red');
+    $meh = colored("[⚠]", 'bright_white on_yellow');
   }
   elsif ($self->{'last_size'} == 5) {
-    $ok  = colored("[ ✔ ]", 'white on_green');
-    $nok = colored("[ ✘ ]", 'white on_red');
-    $meh = colored("[ ⚠ ]", 'white on_yellow');
+    $ok  = colored("[ ✔ ]", 'bright_white on_green');
+    $nok = colored("[ ✘ ]", 'bright_white on_red');
+    $meh = colored("[ ⚠ ]", 'bright_white on_yellow');
   }
   else {    # Better be 7, or it'll look goofy, but still work
-    $ok  = colored("[  ✔  ]", 'white on_green');
-    $nok = colored("[  ✘  ]", 'white on_red');
-    $meh = colored("[  ⚠  ]", 'white on_yellow');
+    $ok  = colored("[  ✔  ]", 'bright_white on_green');
+    $nok = colored("[  ✘  ]", 'bright_white on_red');
+    $meh = colored("[  ⚠  ]", 'bright_white on_yellow');
   }
 
   print $message;
@@ -254,10 +254,10 @@ sub ok {
     $ok = colored("✔", 'green');
   }
   elsif ($self->{'last_size'} == 5) {
-    $ok = colored("[ ✔ ]", 'white on_green');
+    $ok = colored("[ ✔ ]", 'bright_white on_green');
   }
   else {    # Better be 7, or it'll look goofy, but still work
-    $ok = colored("[  ✔  ]", 'white on_green');
+    $ok = colored("[  ✔  ]", 'bright_white on_green');
   }
   say $ok;
 }
@@ -271,10 +271,10 @@ sub meh {
     $meh = colored("⚠", 'yellow');
   }
   elsif ($self->{'last_size'} == 5) {
-    $meh = colored("[ ⚠ ]", 'white on_yellow');
+    $meh = colored("[ ⚠ ]", 'bright_white on_yellow');
   }
   else {    # Better be 7, or it'll look goofy, but still work
-    $meh = colored("[  ⚠  ]", 'white on_yellow');
+    $meh = colored("[  ⚠  ]", 'bright_white on_yellow');
   }
   say $meh;
 }
@@ -288,10 +288,10 @@ sub nok {
     $nok = colored("✘", 'red');
   }
   elsif ($self->{'last_size'} == 5) {
-    $nok = colored("[ ✘ ]", 'white on_red');
+    $nok = colored("[ ✘ ]", 'bright_white on_red');
   }
   else {    # Better be 7, or it'll look goofy, but still work
-    $nok = colored("[  ✘  ]", 'white on_red');
+    $nok = colored("[  ✘  ]", 'bright_white on_red');
   }
   say $nok;
 }
