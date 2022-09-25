@@ -1,0 +1,28 @@
+Package: libterm-spinner-color-perl
+Version: 0.05-1
+Architecture: all
+Maintainer: Joe Cooper <joe@virtualmin.com>
+Installed-Size: 115
+Depends: perl, perl-modules
+Section: perl
+Priority: optional
+Homepage: http://search.cpan.org/dist/Term-Spinner-Color/
+Description: A terminal spinner/progress bar with Unicode, color, and no non-core dependencies.
+ This is a simple spinner, useful when you want to show some kind of activity
+ during a long-running process of indeterminant length. It's loosely based on
+ the API from Term::Spinner and Term::Spinner::Lite. Unlike Term::Spinner
+ though, this module doesn't have any dependencies outside of modules shipped
+ with Perl itself. And, unlike Term::Spinner::Lite, this module has color
+ support and support for wide progress bars.
+ .
+ Term::Spinner::Color also provides an asynchronous mode, which does not
+ require your program to manually call the next method.
+ .
+ Some features and some (Unicode) frame sets do not work in Windows PowerShell
+ or cmd.exe. If you must work across a wide variety of platforms, choosing
+ ASCII frame sets is wise. run_ok method currently only provides Unicode
+ output, so it is not suitable for use on Windows (bash, of many types, on
+ Windows works fine, however). There's probably a way to fix this by switching
+ to another code page in Windows shells.
+ .
+ This description was automagically extracted from the module by dh-make-perl.
